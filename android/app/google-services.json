@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1079093582570",
+    "project_id": "flutter-trip-ui-9047",
+    "storage_bucket": "flutter-trip-ui-9047.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079093582570:android:251d1cb5f589471f429593",
+        "android_client_info": {
+          "package_name": "com.example.flutter_trip_ui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1079093582570-78vggh5i5mm3415ita6phv723lcfgoej.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXXlldD2jnDTNUr6kpUiFnQG6VXyn5tMY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1079093582570-78vggh5i5mm3415ita6phv723lcfgoej.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
