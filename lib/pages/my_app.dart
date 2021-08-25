@@ -7,7 +7,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter TrIp UI',
+      title: 'Flutter Trip UI',
       theme: ThemeData(
         primarySwatch: Colors.yellow,
       ),

@@ -5,14 +5,14 @@ class Trips {
   DocumentReference? reference;
 
   Trips({
-    required this.name,
-    required this.location,
-    required this.rating,
-    required this.distance,
-    required this.restaurants,
-    required this.description,
-    required this.image,
-    required this.reference,
+    this.name,
+    this.location,
+    this.rating,
+    this.distance,
+    this.restaurants,
+    this.description,
+    this.image,
+    this.reference,
   });
 
   Trips.fromCloud(Map<String, dynamic> key, {this.reference}) {
@@ -28,7 +28,24 @@ class Trips {
 
   Trips.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot)
       : this.fromCloud(snapshot.data()!, reference: snapshot.reference);
-
   // retrieve the data and its reference from Cloud
 
+}
+
+class Categories {
+  String? name, icon;
+  DocumentReference? reference;
+
+  Categories({
+    required this.icon,
+    required this.reference,
+  });
+
+  Categories.fromCloud(Map<String, dynamic> key, {this.reference}) {
+    name = key['name'];
+    icon = key['icon'];
+  }
+
+  Categories.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot)
+      : this.fromCloud(snapshot.data()!, reference: snapshot.reference);
 }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trip_ui/models/trips.dart';
+import 'package:flutter_trip_ui/pages/trip_details.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:favorite_button/favorite_button.dart';
 
@@ -13,9 +14,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String collectionName = 'trips';
-  getData() {
-    return FirebaseFirestore.instance.collection(collectionName).snapshots();
+  FirebaseFirestore cloudFirestore = FirebaseFirestore.instance;
+
+  getTrips() {
+    return cloudFirestore.collection('trips').snapshots();
+  }
+
+  getCategories() {
+    return cloudFirestore.collection('categories').snapshots();
   }
 
   @override
@@ -33,6 +39,7 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // more menus button
                 IconButton(
                     padding: EdgeInsets.only(left: 0),
                     onPressed: () {},
@@ -41,6 +48,7 @@ class _HomePageState extends State<HomePage> {
                       size: 45,
                       color: Colors.grey,
                     )),
+                // user location
                 Row(
                   children: [
                     Icon(
@@ -59,6 +67,7 @@ class _HomePageState extends State<HomePage> {
                     )
                   ],
                 ),
+                // user picture
                 Container(
                   width: 50,
                   height: 50,
@@ -81,16 +90,16 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             SizedBox(
-              height: 40.0,
+              height: 20.0,
             ),
             Align(
-              child: Text('Hi John,', style: GoogleFonts.atma(fontSize: 20.0)),
+              child: Text('Hi Ali,', style: GoogleFonts.atma(fontSize: 20.0)),
               alignment: Alignment.centerLeft,
             ),
             Align(
               child: Text(
                 'Where do you \nwanna go?',
-                textScaleFactor: 1.7,
+                textScaleFactor: 1.5,
                 style: GoogleFonts.acme(
                     fontSize: 26.0, fontWeight: FontWeight.bold),
               ),
@@ -130,7 +139,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(
-              height: 40.0,
+              height: 20.0,
             ),
             Align(
               child: Text(
@@ -139,35 +148,46 @@ class _HomePageState extends State<HomePage> {
               ),
               alignment: Alignment.centerLeft,
             ),
-            // ListView.builder(
-            //   scrollDirection: Axis.horizontal,
-            //   itemBuilder: (context, index) {
-            //     return Container(
-            //       height: 50.0,
-            //       decoration: BoxDecoration(
-            //           color: Colors.white,
-            //           borderRadius: BorderRadius.circular(25.0),
-            //           border: Border.all(width: 3, color: Color(0xffF7F7F7))),
-            //     );
-            //   },
-            // ),
-            // Container(
-            //   height: 80.0,
-            //   width: 150.0,
-            //   decoration: BoxDecoration(
-            //     color: Color(0xffFE5D3D),
-            //     borderRadius: BorderRadius.all(Radius.circular(25)),
-            //   ),
-            //   child: Center(
-            //       child: Row(
-            //     children: [ImageIcon(NetworkImage('')), Text('Trips')],
-            //   )),
-            // ),
             SizedBox(
               height: 20.0,
             ),
+            // Categories Scroller
             StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: getData(),
+              stream: getCategories(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) return Text('Error ${snapshot.error}');
+                if (snapshot.hasData) {
+                  print('Documents ${snapshot.data!.docs.length}');
+                  List<DocumentSnapshot<Map<String, dynamic>>> snapshot2 =
+                      snapshot.data!.docs;
+                  return Container(
+                    height: 80.0,
+                    child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: snapshot2
+                            .map((data) => buildCatList(context, data))
+                            .toList()),
+                  );
+                }
+                return Center(child: CircularProgressIndicator());
+              },
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            Align(
+              child: Text(
+                'Top Trips',
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              ),
+              alignment: Alignment.centerLeft,
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            // Top Trips Scroller
+            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: getTrips(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) return Text('Error ${snapshot.error}');
                 if (snapshot.hasData) {
@@ -185,11 +205,51 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildList(BuildContext context,
       List<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
-    return Flexible(
+    return Container(
+      height: 300,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: snapshot.map((data) => buildListItem(context, data)).toList(),
       ),
+    );
+  }
+
+  Widget buildCatList(
+      BuildContext context, DocumentSnapshot<Map<String, dynamic>> data) {
+    final cat = Categories.fromSnapshot(data);
+    return Row(
+      children: [
+        Container(
+          height: 80,
+          width: 150.0,
+          decoration: BoxDecoration(
+            color: Color(0xffFE5D3D),
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.flight,
+                color: Colors.white,
+                size: 30.0,
+              ),
+              SizedBox(
+                width: 10.0,
+              ),
+              Text(cat.name.toString(),
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.abel(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0))
+            ],
+          ),
+        ),
+        SizedBox(
+          width: 20.0,
+        )
+      ],
     );
   }
 
@@ -199,95 +259,107 @@ class _HomePageState extends State<HomePage> {
     return Padding(
         key: ValueKey(record.name),
         padding: EdgeInsets.symmetric(vertical: 8.0),
-        child: locationCard(record));
+        child: GestureDetector(
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => TripDetails())),
+            child: locationCard(record)));
   }
 
   Widget locationCard(Trips trip) {
-    return Container(
-      padding:
-          EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0, bottom: 18.0),
-      width: 330,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(25)),
-      ),
-      child: Column(
-        children: [
-          Stack(children: [
-            Center(
-              child: Container(
-                clipBehavior: Clip.antiAlias,
-                height: 180.0,
-                width: 300,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                child: Image.network(
-                  trip.image.toString(),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Positioned(
-              top: 8,
-              right: 8,
-              child: FavoriteButton(
-                valueChanged: () {},
-              ),
-            )
-          ]),
-          SizedBox(
-            height: 20.0,
+    return Row(
+      children: [
+        // location card
+        Container(
+          padding:
+              EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0, bottom: 18.0),
+          width: 330,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(25)),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: [
-              Wrap(
-                direction: Axis.vertical,
+              Stack(children: [
+                Center(
+                  child: Container(
+                    clipBehavior: Clip.antiAlias,
+                    height: 180.0,
+                    width: 300,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child: Image.network(
+                      trip.image.toString(),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: FavoriteButton(
+                    valueChanged: () {},
+                  ),
+                )
+              ]),
+              SizedBox(
+                height: 20.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(trip.name.toString(),
-                      style: GoogleFonts.jetBrainsMono(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                      )),
+                  Wrap(
+                    direction: Axis.vertical,
+                    children: [
+                      Text(trip.name.toString(),
+                          style: GoogleFonts.jetBrainsMono(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          )),
+                      Row(
+                        children: [
+                          Icon(
+                            CupertinoIcons.location_solid,
+                            color: Color(0xffFE5D3E),
+                          ),
+                          Text(trip.location.toString(),
+                              style: GoogleFonts.aBeeZee(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14.0,
+                                color: Colors.grey,
+                              )),
+                        ],
+                      )
+                    ],
+                  ),
                   Row(
                     children: [
                       Icon(
-                        CupertinoIcons.location_solid,
+                        Icons.star_rounded,
+                        size: 30.0,
                         color: Color(0xffFE5D3E),
                       ),
-                      Text(trip.location.toString(),
-                          style: GoogleFonts.aBeeZee(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.0,
-                            color: Colors.grey,
-                          )),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: Text(trip.rating.toString(),
+                            style: GoogleFonts.aBeeZee(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16.0,
+                              color: Colors.grey,
+                            )),
+                      ),
                     ],
                   )
                 ],
-              ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.star_rounded,
-                    size: 30.0,
-                    color: Color(0xffFE5D3E),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5.0),
-                    child: Text(trip.rating.toString(),
-                        style: GoogleFonts.aBeeZee(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16.0,
-                          color: Colors.grey,
-                        )),
-                  ),
-                ],
               )
             ],
-          )
-        ],
-      ),
+          ),
+        ),
+        // for spacing between each card
+        SizedBox(
+          width: 20.0,
+        )
+      ],
     );
   }
 }
