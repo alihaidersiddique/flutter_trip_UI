@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.only(left: 20.0, right: 20.0),
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
             Row(
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
             Align(
@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
               ),
               alignment: Alignment.centerLeft,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
             Container(
@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
             Align(
@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> {
               ),
               alignment: Alignment.centerLeft,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
             // Categories Scroller
@@ -172,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                 return Center(child: CircularProgressIndicator());
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
             Align(
@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
               ),
               alignment: Alignment.centerLeft,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20.0,
             ),
             // Top Trips Scroller
@@ -217,6 +217,8 @@ class _HomePageState extends State<HomePage> {
   Widget buildCatList(
       BuildContext context, DocumentSnapshot<Map<String, dynamic>> data) {
     final cat = Categories.fromSnapshot(data);
+
+    //inal IconData icons = cat.icon as IconData ;
     return Row(
       children: [
         Container(
@@ -230,7 +232,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                Icons.flight,
+                Icons.iron,
                 color: Colors.white,
                 size: 30.0,
               ),
@@ -260,8 +262,10 @@ class _HomePageState extends State<HomePage> {
         key: ValueKey(record.name),
         padding: EdgeInsets.symmetric(vertical: 8.0),
         child: GestureDetector(
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => TripDetails())),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TripDetails(record: record))),
             child: locationCard(record)));
   }
 
