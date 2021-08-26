@@ -2,15 +2,11 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:flutter_trip_ui/models/trips.dart';
 
 class TripDetails extends StatefulWidget {
-  Trips trip;
-  TripDetails({
-    Key? key,
-    required this.trip,
-  }) : super(key: key);
+  const TripDetails({Key? key, required this.record}) : super(key: key);
+  final Trips record;
 
   @override
   _TripDetailsState createState() => _TripDetailsState();
@@ -36,7 +32,7 @@ class _TripDetailsState extends State<TripDetails> {
                   children: [
                     Positioned(
                       child: Image.network(
-                        'https://firebasestorage.googleapis.com/v0/b/flutter-trip-ui-9047.appspot.com/o/islands%2F89oh4ssC0TmgKsR7T9NW-1.jpg?alt=media&token=0240d3ee-3218-4de0-b524-bab8d84feda8',
+                        '${widget.record.image}',
                         fit: BoxFit.cover,
                         height: MediaQuery.of(context).size.height * 1.2 / 3,
                       ),
@@ -45,7 +41,9 @@ class _TripDetailsState extends State<TripDetails> {
                       top: 10,
                       left: 10,
                       child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                           icon: Icon(
                             Icons.arrow_back_ios_new,
                             color: Colors.white,
@@ -61,7 +59,7 @@ class _TripDetailsState extends State<TripDetails> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Island',
+                        '${widget.record.name}',
                         style: GoogleFonts.abel(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -76,7 +74,7 @@ class _TripDetailsState extends State<TripDetails> {
                         CupertinoIcons.location_solid,
                         color: Color(0xffFE5D3E),
                       ),
-                      Text('Kanikhao, Ireland',
+                      Text('${widget.record.location}',
                           style: GoogleFonts.aBeeZee(
                             fontWeight: FontWeight.w400,
                             fontSize: 14.0,
@@ -93,22 +91,22 @@ class _TripDetailsState extends State<TripDetails> {
                       TripDetailsBox(
                           icon: Icons.star_border_outlined,
                           name: 'Ratings',
-                          data: '4.8'),
+                          data: '${widget.record.rating}'),
                       TripDetailsBox(
                           icon: Icons.directions_transit_outlined,
                           name: 'Distance',
-                          data: '3800 Km'),
+                          data: '${widget.record.distance}'),
                       TripDetailsBox(
                           icon: Icons.food_bank_outlined,
                           name: 'Food',
-                          data: '108 Avail.')
+                          data: '${widget.record.restaurants}')
                     ],
                   ),
                   SizedBox(
                     height: 50.0,
                   ),
                   Text(
-                    'The Gulf of Thailand, also known as the Gulf of Siam, is a shallow inlet in the southwestern South China Sea, bounded between the southwestern shores of the Indochinese Peninsula and the northern half of the Malay Peninsula.',
+                    '${widget.record.description}',
                     style: GoogleFonts.adventPro(fontSize: 14.0),
                   ),
                   SizedBox(
