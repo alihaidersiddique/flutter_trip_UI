@@ -1,6 +1,9 @@
+import 'dart:html';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trip_ui/pages/home_page.dart';
+import 'package:flutter_trip_ui/sign_up/sign_up.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class EmailLogin extends StatefulWidget {
@@ -122,7 +125,24 @@ class _EmailLoginState extends State<EmailLogin> {
             if (isLoggingIn) ...[
               const SizedBox(height: 16.0),
               Center(child: CircularProgressIndicator())
-            ]
+            ],
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+              child: SizedBox(
+                width: double.infinity,
+                height: 50.0,
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SignUp(),
+                          ));
+                    },
+                    child: Text('Sign Up')),
+              ),
+            ),
           ],
         ),
       ),
