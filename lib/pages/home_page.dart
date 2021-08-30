@@ -28,162 +28,161 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffFAFAFA),
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
           child: Container(
         padding: EdgeInsets.only(left: 20.0, right: 20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 20.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // more menus button
-                  IconButton(
-                      padding: EdgeInsets.only(left: 0),
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.sort,
-                        size: 45,
-                        color: Colors.grey,
-                      )),
-                  // user location
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.my_location,
-                        size: 20,
-                        color: Color(0xffF6775F),
+        child: Column(
+          children: [
+            const SizedBox(height: 20.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // more menus button
+                IconButton(
+                    padding: EdgeInsets.only(left: 0),
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.sort,
+                      size: 45,
+                      color: Colors.grey,
+                    )),
+                // user location
+                Row(
+                  children: [
+                    Icon(
+                      Icons.my_location,
+                      size: 20,
+                      color: Color(0xffF6775F),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        'Dhaka, Bangladesh',
+                        style: GoogleFonts.actor(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[350]),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          'Dhaka, Bangladesh',
-                          style: GoogleFonts.actor(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey[350]),
+                    )
+                  ],
+                ),
+                // user picture
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          blurRadius: 7,
+                          offset: Offset(1, 8), // changes position of shadow
                         ),
-                      )
-                    ],
+                      ],
+                      borderRadius: BorderRadius.circular(100.0),
+                      border: Border.all(color: Colors.white, width: 5.0)),
+                  child: CircleAvatar(
+                    radius: 25,
+                    backgroundImage:
+                        AssetImage('assets/images/1495088041-avatar.jpg'),
                   ),
-                  // user picture
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            blurRadius: 7,
-                            offset: Offset(1, 8), // changes position of shadow
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(100.0),
-                        border: Border.all(color: Colors.white, width: 5.0)),
-                    child: CircleAvatar(
-                      radius: 25,
-                      backgroundImage:
-                          AssetImage('assets/images/1495088041-avatar.jpg'),
-                    ),
-                  )
-                ],
+                )
+              ],
+            ),
+            const SizedBox(height: 20.0),
+            Align(
+              child: Text('Hi Ali,', style: GoogleFonts.atma(fontSize: 20.0)),
+              alignment: Alignment.centerLeft,
+            ),
+            Align(
+              child: Text(
+                'Where do you \nwanna go?',
+                textScaleFactor: 1.5,
+                style: GoogleFonts.acme(
+                    fontSize: 26.0, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 20.0),
-              Align(
-                child: Text('Hi Ali,', style: GoogleFonts.atma(fontSize: 20.0)),
-                alignment: Alignment.centerLeft,
-              ),
-              Align(
-                child: Text(
-                  'Where do you \nwanna go?',
-                  textScaleFactor: 1.5,
-                  style: GoogleFonts.acme(
-                      fontSize: 26.0, fontWeight: FontWeight.bold),
-                ),
-                alignment: Alignment.centerLeft,
-              ),
-              const SizedBox(height: 20.0),
-              Container(
-                padding: EdgeInsets.only(right: 50.0),
-                height: 60.0,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25.0),
-                    border: Border.all(width: 3, color: Color(0xffF7F7F7))),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Center(
-                    child: TextFormField(
-                      cursorColor: Colors.black,
-                      decoration: InputDecoration(
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          icon: Icon(
-                            Icons.search_outlined,
-                            size: 30,
-                            color: Colors.grey.shade300,
-                          ),
-                          hintText: 'Where do you want to go?',
-                          hintStyle: TextStyle(color: Colors.grey.shade500)),
-                    ),
+              alignment: Alignment.centerLeft,
+            ),
+            const SizedBox(height: 20.0),
+            Container(
+              padding: EdgeInsets.only(right: 50.0),
+              height: 60.0,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(25.0),
+                  border: Border.all(width: 3, color: Color(0xffF7F7F7))),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Center(
+                  child: TextFormField(
+                    cursorColor: Colors.black,
+                    decoration: InputDecoration(
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        icon: Icon(
+                          Icons.search_outlined,
+                          size: 30,
+                          color: Colors.grey.shade300,
+                        ),
+                        hintText: 'Where do you want to go?',
+                        hintStyle: TextStyle(color: Colors.grey.shade500)),
                   ),
                 ),
               ),
-              const SizedBox(height: 20.0),
-              Align(
-                child: Text(
-                  'Categories',
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                ),
-                alignment: Alignment.centerLeft,
+            ),
+            const SizedBox(height: 20.0),
+            Align(
+              child: Text(
+                'Categories',
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 20.0),
-              // Categories Scroller
-              StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream: getCategories(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) return Text('Error ${snapshot.error}');
-                  if (snapshot.hasData) {
-                    print('Documents ${snapshot.data!.docs.length}');
-                    List<DocumentSnapshot<Map<String, dynamic>>> snapshot2 =
-                        snapshot.data!.docs;
-                    return Container(
-                      height: 80.0,
-                      child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: snapshot2
-                              .map((data) => buildCatList(context, data))
-                              .toList()),
-                    );
-                  }
-                  return Center(child: CircularProgressIndicator());
-                },
+              alignment: Alignment.centerLeft,
+            ),
+            const SizedBox(height: 20.0),
+            // Categories Scroller
+            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: getCategories(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) return Text('Error ${snapshot.error}');
+                if (snapshot.hasData) {
+                  print('Documents ${snapshot.data!.docs.length}');
+                  List<DocumentSnapshot<Map<String, dynamic>>> snapshot2 =
+                      snapshot.data!.docs;
+                  return Container(
+                    height: 80.0,
+                    child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: snapshot2
+                            .map((data) => buildCatList(context, data))
+                            .toList()),
+                  );
+                }
+                return Center(child: CircularProgressIndicator());
+              },
+            ),
+            const SizedBox(height: 20.0),
+            Align(
+              child: Text(
+                'Top Trips',
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 20.0),
-              Align(
-                child: Text(
-                  'Top Trips',
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                ),
-                alignment: Alignment.centerLeft,
-              ),
-              const SizedBox(height: 20.0),
-              // Top Trips Scroller
-              StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream: getTrips(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) return Text('Error ${snapshot.error}');
-                  if (snapshot.hasData) {
-                    print('Documents ${snapshot.data!.docs.length}');
-                    return buildList(context, snapshot.data!.docs);
-                  }
-                  return Center(child: CircularProgressIndicator());
-                },
-              )
-            ],
-          ),
+              alignment: Alignment.centerLeft,
+            ),
+            const SizedBox(height: 20.0),
+            // Top Trips Scroller
+            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: getTrips(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) return Text('Error ${snapshot.error}');
+                if (snapshot.hasData) {
+                  print('Documents ${snapshot.data!.docs.length}');
+                  return buildList(context, snapshot.data!.docs);
+                }
+                return Center(child: CircularProgressIndicator());
+              },
+            )
+          ],
         ),
       )),
     );
